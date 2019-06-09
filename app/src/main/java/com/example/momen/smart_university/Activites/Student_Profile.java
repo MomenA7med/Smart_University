@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import com.example.momen.smart_university.R;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class Student_Profile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,6 +36,8 @@ public class Student_Profile extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("First");
 
         Button table=findViewById(R.id.st_table);
         table.setOnClickListener(new View.OnClickListener() {
