@@ -18,8 +18,7 @@ public class subject {
 
     public subject(){}
 
-    public subject(String name,int code,String year,String department,boolean available,QuizModel quizModel,int number_of_lec,boolean section_check,Student_Absence student_absence)
-
+    public subject(String name,int code,String year,String department,boolean available,QuizModel quizModel,int number_of_lec,boolean section_check,Student_Absence student_absence,Note note)
     {
         this.student_absence=student_absence;
         this.name = name;
@@ -30,7 +29,7 @@ public class subject {
         this.quizModel=quizModel;
         this.number_of_lec =number_of_lec;
         this.section_check=section_check;
-
+        this.note = note;
     }
 
     public boolean isSection_check() {

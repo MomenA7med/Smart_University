@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.momen.smart_university.fragment.Students;
+import com.example.momen.smart_university.fragment.Tables;
 
 /**
  * Created by Momen on 3/18/2019.
@@ -26,7 +27,7 @@ public class AdminPageAdapter extends FragmentPagerAdapter {
             case 1:
                 return new Students();
             case 2:
-                return new Students();
+                return new Tables();
             default:
                 return null;
         }
