@@ -17,6 +17,7 @@ import com.example.momen.smart_university.Request.RequestUniversity;
 import com.example.momen.smart_university.Response.ResponseUniversity;
 import com.example.momen.smart_university.api.UniversityRetofit;
 import com.example.momen.smart_university.api.UniversityService;
+import com.example.momen.smart_university.firebase.Doctor.DoctorName;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,7 +62,7 @@ public class Note extends AppCompatActivity {
 
                 UniversityService universityService = UniversityRetofit.getRetrofit().create(UniversityService.class);
                 Call<ResponseUniversity> call = universityService.sendData(new RequestUniversity("/topics/"+topic,
-                        new Data("Momen",note_text)));
+                        new Data(DoctorName.doctorName,note_text)));
                 call.enqueue(new Callback<ResponseUniversity>() {
                     @Override
                     public void onResponse(Call<ResponseUniversity> call, Response<ResponseUniversity> response) {

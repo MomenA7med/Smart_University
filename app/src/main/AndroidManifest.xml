@@ -57,6 +57,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".Activites.LoginDoctorActivity"></activity>
     </application>
 
 </manifest>

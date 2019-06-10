@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doc(View view) {
-        Intent intent = new Intent(MainActivity.this,DocorActivity.class);
+        Intent intent = new Intent(MainActivity.this,LoginDoctorActivity.class);
         startActivity(intent);
     }
 

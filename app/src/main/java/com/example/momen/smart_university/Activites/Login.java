@@ -68,8 +68,6 @@ public class Login extends AppCompatActivity {
     }
     public void click(View view){
 
-        Toast.makeText(this, String.valueOf(studentsList.size())
-                , Toast.LENGTH_SHORT).show();
      for(int i =0;i<studentsList.size();i++)  {
 
          if(studentsList.get(i).getS_id().equals(editText.getText().toString())){
