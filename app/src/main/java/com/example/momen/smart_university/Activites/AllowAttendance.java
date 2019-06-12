@@ -17,11 +17,13 @@ import java.util.Random;
 public class AllowAttendance extends AppCompatActivity {
     private TextView code;
     private Button generate_code;
-    private int  num_random;
+    private int  num_random = 0;
     private RadioButton allow,not_allow;
     private RadioGroup rg;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private String docName;
+    private String subName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +33,15 @@ public class AllowAttendance extends AppCompatActivity {
         rg = findViewById(R.id.rg);
         allow = findViewById(R.id.allow);
         not_allow = findViewById(R.id.not_allow);
+        docName = getIntent().getStringExtra("docName");
+        subName = getIntent().getStringExtra("subName");
         generate_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Random random= new Random();
                 num_random=random.nextInt(1000);
                 firebaseDatabase=FirebaseDatabase.getInstance();
-                databaseReference = firebaseDatabase.getReference().child("doctor").child("Momen").child("subject");
+                databaseReference = firebaseDatabase.getReference().child("Doctors").child(docName).child("Subjects").child(subName);
                 databaseReference.child("code").setValue(num_random);
                 code.setText(String.valueOf(num_random));
             }
@@ -45,10 +49,12 @@ public class AllowAttendance extends AppCompatActivity {
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (num_random != 0){
                 if (checkedId == R.id.allow)
                     databaseReference.child("available").setValue(true);
                 else if (checkedId == R.id.not_allow)
                     databaseReference.child("available").setValue(false);
+                }
             }
         });
 

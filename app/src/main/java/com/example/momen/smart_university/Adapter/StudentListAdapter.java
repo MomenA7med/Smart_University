@@ -13,8 +13,7 @@ import com.example.momen.smart_university.firebase.Student.Students;
 
 import java.util.List;
 
-public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.recyclerVH>
-{
+public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.recyclerVH> {
     public interface StudentClickListener {
         void onListItemClick(int position);
     }

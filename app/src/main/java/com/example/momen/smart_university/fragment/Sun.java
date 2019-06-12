@@ -4,6 +4,7 @@ package com.example.momen.smart_university.fragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.momen.smart_university.Activites.QuizOrAttendeActivity;
 import com.example.momen.smart_university.Activites.StudentName;
 import com.example.momen.smart_university.GetTableDocFactory;
 import com.example.momen.smart_university.GetTableModel;
@@ -40,7 +42,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Sun extends Fragment {
+public class Sun extends Fragment implements table_adapter.TableClickListener {
 
 
     public static Sun getType(String docOrStu) {
@@ -72,7 +74,7 @@ public class Sun extends Fragment {
         list=new ArrayList<>();
         sunday = new ArrayList<>();
         RecyclerView recyclerView=view.findViewById(R.id.Recycler_table);
-        final table_adapter table_adapter = new table_adapter(sunday);
+        final table_adapter table_adapter = new table_adapter(sunday,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(table_adapter);
 
@@ -84,7 +86,7 @@ public class Sun extends Fragment {
                             for (DataSnapshot tableSnapshot : dataSnapshot.getChildren()){
                                 Subjects subs = tableSnapshot.getValue(Subjects.class);
                                 if (subs != null){
-                                    list.add(subs.getLecture().getLecture_name());
+                                    list.add(subs.getLecture().getName());
                                 }
                             }
 
@@ -127,9 +129,15 @@ public class Sun extends Fragment {
             });
         }
 
-
-
         return view;
     }
 
+    @Override
+    public void onListItemClick(int position) {
+        Intent intent = new Intent(getActivity(), QuizOrAttendeActivity.class);
+        intent.putExtra("docName",sunday.get(position).getDoc_name());
+        intent.putExtra("subName",sunday.get(position).getSub_name());
+        intent.putExtra("type",type);
+        startActivity(intent);
+    }
 }

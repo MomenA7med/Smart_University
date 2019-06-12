@@ -14,10 +14,15 @@ import java.util.List;
 
 public class table_adapter extends RecyclerView.Adapter<table_adapter.tableVH> {
 
+    public interface TableClickListener {
+        void onListItemClick(int position);
+    }
+    private final TableClickListener tableClickListener;
     List<TableEntry> list ;
-    public table_adapter(List<TableEntry> list)
+    public table_adapter(List<TableEntry> list,TableClickListener tableClickListener)
     {
         this.list=list;
+        this.tableClickListener = tableClickListener;
     }
     @NonNull
     @Override
@@ -39,7 +44,7 @@ public class table_adapter extends RecyclerView.Adapter<table_adapter.tableVH> {
         return list.size();
     }
 
-    public  class tableVH extends RecyclerView.ViewHolder{
+    public  class tableVH extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView textView,from,to;
         public tableVH(View itemView) {
@@ -47,7 +52,12 @@ public class table_adapter extends RecyclerView.Adapter<table_adapter.tableVH> {
         textView=itemView.findViewById(R.id.lec_table);
         from = itemView.findViewById(R.id.fromTable);
         to = itemView.findViewById(R.id.toTable);
+        itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            tableClickListener.onListItemClick(getAdapterPosition());
+        }
     }
 }

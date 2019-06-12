@@ -14,8 +14,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="70dp"
         android:textAlignment="center"
-
-        android:entries="@array/specialize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +26,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:textAlignment="center"
-
         android:entries="@array/specialize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +39,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:textAlignment="center"
-
         android:entries="@array/year"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +75,8 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="40dp"
         android:hint="to"
+        android:inputType="time"
         android:textAlignment="center"
-
         app:layout_constraintStart_toStartOf="@id/point"
         app:layout_constraintTop_toTopOf="@id/spinner_year"
         android:layout_marginLeft="50dp" />
@@ -94,7 +90,6 @@
         android:layout_marginTop="30dp"
         android:hint="section num"
         android:inputType="number"
-
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +104,6 @@
         android:layout_marginTop="14dp"
         android:ems="10"
         android:hint="Subject"
-
         android:inputType="textPersonName"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"

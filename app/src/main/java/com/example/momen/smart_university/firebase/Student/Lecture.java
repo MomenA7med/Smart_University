@@ -7,17 +7,13 @@ public class Lecture {
     public String name;
     public List<String> attendances;
     public int num_lecture;
-
-
     public Lecture() {
-
     }
-    public Lecture(String Sub_name,  List<String> attendances,List<Float> quizDegrees,int num_lecture)
-
+    public Lecture(String name,  List<String> attendances,List<Float> quizDegrees,int num_lecture)
     {
         this.quizDegrees=quizDegrees;
         this.attendances=attendances;
-        name =Sub_name;
+        this.name =name;
         this.num_lecture=num_lecture;
 
     }
@@ -46,13 +42,11 @@ public class Lecture {
         this.quizDegrees = quizDegrees;
     }
 
-    public String getLecture_name() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
         return name;
     }
-
-    public void setLecture_name(String lecture_name) {
-        this.name = lecture_name;
-    }
-
-
 }
