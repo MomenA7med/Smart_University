@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.momen.smart_university.fragment.Doctors;
 import com.example.momen.smart_university.fragment.Students;
 import com.example.momen.smart_university.fragment.Tables;
 
@@ -25,7 +26,7 @@ public class AdminPageAdapter extends FragmentPagerAdapter {
             case 0 :
                 return new Students();
             case 1:
-                return new Students();
+                return new Doctors();
             case 2:
                 return new Tables();
             default:

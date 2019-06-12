@@ -6,4 +6,5 @@ package com.example.momen.smart_university.Activites;
 
 public class StudentName {
     public static String name = "";
+    public static String year = "";
 }

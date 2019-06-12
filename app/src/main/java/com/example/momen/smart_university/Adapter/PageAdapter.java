@@ -11,10 +11,11 @@ import com.example.momen.smart_university.fragment.Tues;
 import com.example.momen.smart_university.fragment.Wed;
 
 public class PageAdapter extends FragmentPagerAdapter {
-    private   int numoftab;
-    public PageAdapter(FragmentManager fm,int numoftab ) {
+    private int numoftab;
+    private String docOrStu;
+    public PageAdapter(FragmentManager fm,int numoftab,String docOrStu ) {
         super(fm);
-
+        this.docOrStu = docOrStu;
         this.numoftab=numoftab;
     }
 
@@ -22,17 +23,15 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new Sun();
-
-
+                return Sun.getType(docOrStu);
             case 1:
-                return new Mon();
+                return Mon.getType(docOrStu);
             case 2:
-                return new Tues();
+                return Tues.getType(docOrStu);
             case 3:
-                return new Thurs();
+                return Wed.getType(docOrStu);
             case 4:
-                return new Wed();
+                return Thurs.getType(docOrStu);
             default:
                 return null;
         }
@@ -47,9 +46,9 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 2:
                 return "Tues";
             case 3:
-                return "Thurs" ;
+                return "Wed" ;
             case 4:
-                return "Wed";
+                return "Thurs";
 
 
         }

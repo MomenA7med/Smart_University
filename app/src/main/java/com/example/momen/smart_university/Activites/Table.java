@@ -23,8 +23,9 @@ public class Table extends AppCompatActivity {
         TabItem wed =findViewById(R.id.wed);
         TabItem thurs =findViewById(R.id.thurs);
         final ViewPager viewPager=findViewById(R.id.viewpager);
+        String type = getIntent().getStringExtra("type");
 
-        PageAdapter pageAdapter=new PageAdapter(getSupportFragmentManager(),table.getTabCount());
+        PageAdapter pageAdapter=new PageAdapter(getSupportFragmentManager(),table.getTabCount(),type);
         viewPager.setAdapter(pageAdapter);
 
         table.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

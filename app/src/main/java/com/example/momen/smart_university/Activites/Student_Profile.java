@@ -1,6 +1,8 @@
 package com.example.momen.smart_university.Activites;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -12,14 +14,34 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.momen.smart_university.AppExecutor;
 import com.example.momen.smart_university.R;
+import com.example.momen.smart_university.database.DatabaseRoom;
+import com.example.momen.smart_university.database.TableEntry;
+import com.example.momen.smart_university.firebase.Student.Lecture;
+import com.example.momen.smart_university.firebase.Student.Students;
+import com.example.momen.smart_university.firebase.Student.Subjects;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Student_Profile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    DatabaseRoom db;
+    List<String> list;
+    Gson gson = new Gson();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +49,9 @@ public class Student_Profile extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("My Profile");
+        db = DatabaseRoom.getsInstance(this);
 
+        list = new ArrayList<>();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -37,13 +61,15 @@ public class Student_Profile extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("First");
+        FirebaseMessaging.getInstance().subscribeToTopic(StudentName.year);
+
 
         Button table=findViewById(R.id.st_table);
         table.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(Student_Profile.this,Table.class);
+                intent.putExtra("type","stu");
                 startActivity(intent);
 
             }
@@ -60,7 +86,39 @@ public class Student_Profile extends AppCompatActivity
 
         });
 
+        //if (isNetworkAvailable(this) && isInternetAvailable()){
+        FirebaseDatabase.getInstance().getReference().child("Table").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                final TableEntry tableEntry = dataSnapshot.getValue(TableEntry.class);
+                AppExecutor.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        db.tableDio().insertSubject(tableEntry);
+                    }
+                });
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -104,6 +162,7 @@ public class Student_Profile extends AppCompatActivity
 
         if (id == R.id.student_table) {
             Intent intent= new Intent(this,Table.class);
+            intent.putExtra("type","stu");
             startActivity(intent);
 
         } else if (id == R.id.student_tasks) {
@@ -122,5 +181,18 @@ public class Student_Profile extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            return !address.equals("");
+        } catch (UnknownHostException e) {
+            // Log error
+        }
+        return false;
     }
 }

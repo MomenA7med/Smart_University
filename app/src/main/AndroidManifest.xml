@@ -3,6 +3,8 @@
     package="com.example.momen.smart_university">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -57,7 +59,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Activites.LoginDoctorActivity"></activity>
+        <activity android:name=".Activites.LoginDoctorActivity" />
+        <activity android:name=".Activites.AddDoctor"></activity>
     </application>
 
 </manifest>

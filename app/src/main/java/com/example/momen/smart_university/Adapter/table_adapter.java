@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.momen.smart_university.R;
+import com.example.momen.smart_university.database.TableEntry;
 
 import java.util.List;
 
 public class table_adapter extends RecyclerView.Adapter<table_adapter.tableVH> {
 
-    List<String> list ;
-    public table_adapter(List<String> list)
+    List<TableEntry> list ;
+    public table_adapter(List<TableEntry> list)
     {
         this.list=list;
     }
@@ -28,7 +29,9 @@ public class table_adapter extends RecyclerView.Adapter<table_adapter.tableVH> {
 
     @Override
     public void onBindViewHolder(@NonNull tableVH holder, int position) {
-        holder.textView.setText(list.get(position));
+        holder.textView.setText(list.get(position).getSub_name());
+        holder.from.setText(String.valueOf(list.get(position).getFrom()));
+        holder.to.setText(String.valueOf(list.get(position).getTo()));
     }
 
     @Override
@@ -38,10 +41,12 @@ public class table_adapter extends RecyclerView.Adapter<table_adapter.tableVH> {
 
     public  class tableVH extends RecyclerView.ViewHolder{
 
-        TextView textView;
+        TextView textView,from,to;
         public tableVH(View itemView) {
             super(itemView);
         textView=itemView.findViewById(R.id.lec_table);
+        from = itemView.findViewById(R.id.fromTable);
+        to = itemView.findViewById(R.id.toTable);
         }
 
     }

@@ -14,16 +14,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.momen.smart_university.AppExecutor;
 import com.example.momen.smart_university.R;
+import com.example.momen.smart_university.database.DatabaseRoom;
+import com.example.momen.smart_university.database.TableEntry;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DocorActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    DatabaseRoom db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_docor);
         setTitle("My Profile");
+
+        db = DatabaseRoom.getsInstance(this);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -45,6 +56,40 @@ public class DocorActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        FirebaseDatabase.getInstance().getReference().child("Table").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                final TableEntry tableEntry = dataSnapshot.getValue(TableEntry.class);
+                AppExecutor.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        db.tableDio().insertSubject(tableEntry);
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -88,6 +133,7 @@ public class DocorActivity extends AppCompatActivity
         if (id == R.id.table) {
 
             Intent intent= new Intent(this,Table.class);
+            intent.putExtra("type","doc");
             startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.task) {

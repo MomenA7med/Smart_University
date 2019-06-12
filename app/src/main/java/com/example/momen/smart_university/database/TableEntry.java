@@ -1,12 +1,19 @@
-package com.example.momen.smart_university.firebase.Table;
+package com.example.momen.smart_university.database;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 /**
- * Created by Momen on 3/16/2019.
+ * Created by Momen on 6/11/2019.
  */
-
-public class Table_model {
+@Entity(tableName = "table_entry")
+public class TableEntry {
 
     private String doc_name;
+    @NonNull
+    @PrimaryKey
     private String sub_name;
     private int room_num;
     private float from,to;
@@ -14,9 +21,9 @@ public class Table_model {
     private String year;
     private String day;
 
-    public Table_model(){}
+    public TableEntry(){};
 
-    public Table_model(String doc_name, String sub_name, int room_num, float from, float to, int section,String year,String day){
+    public TableEntry(String doc_name, String sub_name, int room_num, float from, float to, int section,String year,String day){
         this.doc_name = doc_name;
         this.sub_name = sub_name;
         this.room_num = room_num;
@@ -90,4 +97,5 @@ public class Table_model {
     public String getYear() {
         return year;
     }
+
 }

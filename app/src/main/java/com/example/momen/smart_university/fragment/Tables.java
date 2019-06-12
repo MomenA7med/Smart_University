@@ -50,16 +50,17 @@ public class Tables extends Fragment {
             @Override
             public void onClick(View view) {
 
-                referenceTable.child(year.getSelectedItem().toString()).child(day.getSelectedItem().toString())
-                        .child(subject.getText().toString()).setValue(new Table_model("momen"//doc.getSelectedItem().toString()
-                        ,subject.getText().toString(),
-                        Integer.parseInt(room.getText().toString()),Float.parseFloat(from.getText().toString())
-                        ,Float.parseFloat(to.getText().toString()),Integer.parseInt(secNum.getText().toString())));
+                referenceTable.child(subject.getText().toString()).setValue(new Table_model("momen",subject.getText().toString(),
+                        Integer.parseInt(room.getText().toString()),Float.parseFloat(from.getText().toString()),Float.parseFloat(to.getText().toString())
+                        ,Integer.parseInt(secNum.getText().toString()),year.getSelectedItem().toString(),day.getSelectedItem().toString()));
+
 
                 referenceDoc.child(subject.getText().toString()).setValue(new subject(subject.getText().toString(),0,
                         year.getSelectedItem().toString(),
                         spec.getSelectedItem().toString(),false,null,0,true,
                         null,null));
+
+
 
             }
         });
