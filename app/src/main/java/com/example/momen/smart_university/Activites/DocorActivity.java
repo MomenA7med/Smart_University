@@ -137,16 +137,16 @@ public class DocorActivity extends AppCompatActivity
             startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.task) {
-            Intent intent = new Intent(this,Quiz.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this,Quiz.class);
+            //startActivity(intent);
         } else if (id == R.id.note) {
 
             Intent intent = new Intent(this,Note.class);
             startActivity(intent);
         }
         else if (id == R.id.doctor_absence) {
-            Intent intent = new Intent(this,AllowAttendance.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this,AllowAttendance.class);
+            //startActivity(intent);
         }
         else if (id == R.id.nav_share) {
 

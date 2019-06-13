@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.momen.smart_university.R;
+import com.example.momen.smart_university.firebase.Doctor.DoctorName;
 import com.example.momen.smart_university.firebase.Doctor.Questions;
 import com.example.momen.smart_university.firebase.Doctor.QuizModel;
 import com.google.firebase.database.DatabaseReference;
@@ -17,20 +18,22 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class Create_Question extends AppCompatActivity {
 
     EditText question,answer1,answer2,answer3,answer4,correct;
     Button Add ,Save ;
     List<Questions> questionsList;
     QuizModel quizModel;
-    DatabaseReference   databaseReference;
+    DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create__question);
+        Intent intent = getIntent();
+        final String QuizeName = intent.getStringExtra("QuizName");
+        final String subject = intent.getStringExtra("subject");
         question = findViewById(R.id.question);
         answer1=findViewById(R.id.answer1);
         answer2=findViewById(R.id.answer2);
@@ -43,14 +46,12 @@ public class Create_Question extends AppCompatActivity {
         quizModel = new QuizModel();
         quizModel.setPushed(true);
         firebaseDatabase= FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("doctor").child("Momen").child("subject").child("Quizs");
-        Intent intent = getIntent();
-        final String QuizeName = intent.getStringExtra("QuizName");
+        databaseReference = firebaseDatabase.getReference().child("Doctors").child(DoctorName.doctorName).child("Subjects").child(subject).child("QuizModel");
 
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                questionsList.add(new Questions(question.getText().toString(),answer1.getText().toString(),answer2.getText().toString(),answer3.getText().toString(),answer4.getText().toString(),correct.getText().toString(),30));
+                questionsList.add(new Questions(question.getText().toString(),answer1.getText().toString(),answer2.getText().toString(),answer3.getText().toString(),answer4.getText().toString(),correct.getText().toString()));
                 question.setText("");
                 answer1.setText("");
                 answer2.setText("");
@@ -60,15 +61,15 @@ public class Create_Question extends AppCompatActivity {
             }
 
         });
-         Save.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 questionsList.add(new Questions(question.getText().toString(),answer1.getText().toString(),answer2.getText().toString(),answer3.getText().toString(),answer4.getText().toString(),correct.getText().toString(),30));
-                 Toast.makeText(Create_Question.this, questionsList.get(0).toString(), Toast.LENGTH_SHORT).show();
-                 databaseReference.child(QuizeName).setValue(new QuizModel(true,questionsList,100,30));
-                 finish();
+        Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                questionsList.add(new Questions(question.getText().toString(),answer1.getText().toString(),answer2.getText().toString(),answer3.getText().toString(),answer4.getText().toString(),correct.getText().toString()));
+                Toast.makeText(Create_Question.this, questionsList.get(0).toString(), Toast.LENGTH_SHORT).show();
+                databaseReference.child(QuizeName).setValue(new QuizModel(false,questionsList,100,30,QuizeName));
+                finish();
 
-             }
-         });
-           }
+            }
+        });
+    }
 }

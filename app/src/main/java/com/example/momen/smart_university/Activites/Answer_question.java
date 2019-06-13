@@ -12,21 +12,20 @@ import android.widget.Toast;
 import com.example.momen.smart_university.R;
 import com.example.momen.smart_university.firebase.Doctor.Questions;
 import com.example.momen.smart_university.firebase.Doctor.QuizModel;
+import com.example.momen.smart_university.firebase.Doctor.subject;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Answer_question extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference referenceQuestion;
-    private DatabaseReference referenceAttend;
-    private ChildEventListener listener;
-    private ChildEventListener listenerQuiz;
+    private DatabaseReference reference;
     private List<String> attendances;
     private List<Questions> questionsList;
     private List<QuizModel> quizModelList;
@@ -39,6 +38,8 @@ public class Answer_question extends AppCompatActivity {
     private Button next;
     private int count;
     private boolean checkItem;
+    String docName;
+    String subName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,80 +54,73 @@ public class Answer_question extends AppCompatActivity {
         tv_question=findViewById(R.id.question);
         next=findViewById(R.id.next);
         count=0;
+        docName = getIntent().getStringExtra("docName");
+        subName = getIntent().getStringExtra("subName");
         //firebase
         firebaseDatabase = FirebaseDatabase.getInstance();
-        referenceQuestion = firebaseDatabase.getReference().child("doctor").child("Momen").child("subject").child("Quizs");
-        referenceAttend =firebaseDatabase.getReference().child("Attendances");
+        reference = firebaseDatabase.getReference().child("Doctors").child(docName).child("Subjects");
+
         attendances = new ArrayList<>();
         questionsList = new ArrayList<>();
         quizModelList = new ArrayList<>();
 
-        final List<Questions> questions = new ArrayList<>();
 
-       listener = new ChildEventListener() {
-           @Override
-           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                 String attend = dataSnapshot.getValue(String.class);
-                 attendances.add(attend);
 
-             }
+        reference.child(subName).child("Student_Absence").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String attend = dataSnapshot.getValue(String.class);
+                attendances.add(attend);
+            }
 
             @Override
-              public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
             }
 
             @Override
-              public void onChildRemoved(DataSnapshot dataSnapshot) {
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
             }
 
             @Override
-              public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
             @Override
-        public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
-           }
-       };
-       referenceAttend.addChildEventListener(listener);
+            }
+        });
 
-       listenerQuiz = new ChildEventListener() {
-           @Override
-           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-               QuizModel quizModel = dataSnapshot.getValue(QuizModel.class);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    subject subject = snapshot.getValue(subject.class);
+                    if (subject!=null && subject.getName().equals(subName)) {
+                        QuizModel quizModel = subject.getQuizModel();
+                        if (quizModel.getPushed()) {
+                            quizModelList.add(quizModel);
+                            QuizModel model = quizModelList.get(getIndex(StudentName.name)%quizModelList.size());
+                            questionsList = model.getQuestions();
+                            populateUI();
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-               if(quizModel.getPushed()){
-                   quizModelList.add(quizModel);
-                   QuizModel model = quizModelList.get(getIndex(StudentName.name)%quizModelList.size());
-                   questionsList = model.getQuestions();
-                   populateUI();
-               }
-           }
-           @Override
-           public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+        });
 
-           }
-           @Override
-           public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-           }
-           @Override
-           public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-           }
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
-           }
-       };
         try {
-            Thread.sleep(2);
+            Thread.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        referenceQuestion.addChildEventListener(listenerQuiz);
 
        //QuizModel quizModel =  quizModelList.get(getIndex(StudentName.name)%(quizModelList.size()-1));
        //questionsList = quizModel.getQuestions();

@@ -48,5 +48,25 @@ public class QuizOrAttendeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        quize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (type.equals("stu")){
+                    Intent intent = new Intent(QuizOrAttendeActivity.this,Answer_question.class);
+                    intent.putExtra("docName",docName);
+                    intent.putExtra("subName",subName);
+                    Toast.makeText(QuizOrAttendeActivity.this, docName, Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(QuizOrAttendeActivity.this,Quiz.class);
+                    intent.putExtra("docName",docName);
+                    intent.putExtra("subName",subName);
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 }

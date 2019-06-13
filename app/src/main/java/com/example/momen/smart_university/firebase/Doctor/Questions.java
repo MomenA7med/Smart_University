@@ -14,13 +14,11 @@ public class Questions {
     public String answer3;
     public String answer4;
     public String correctAnswer;
-    public float degree;
 
     public  Questions(){}
 
-    public Questions(String question,String answer1,String answer2,String answer3,String answer4,String correctAnswer,float degree)
+    public Questions(String question,String answer1,String answer2,String answer3,String answer4,String correctAnswer)
     {
-        this.degree=degree;
         this.question=question;
         this.answer1 = answer1;
         this.answer2 = answer2;
@@ -30,15 +28,6 @@ public class Questions {
 
     }
     public Questions(Editable text, Editable answer1Text, Editable answer2Text, Editable answer3Text, Editable answer4Text, Editable correctText){}
-
-
-    public float getDegree() {
-        return degree;
-    }
-
-    public void setDegree(float degree) {
-        this.degree = degree;
-    }
 
     public String getQuestion() {
         return question;
@@ -84,6 +73,5 @@ public class Questions {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
-
 
 }

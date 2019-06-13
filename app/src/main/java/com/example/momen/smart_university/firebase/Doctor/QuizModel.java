@@ -8,14 +8,16 @@ import java.util.List;
 
 public class QuizModel {
     private boolean pushed;
+    private  String quiz_name;
     private List<Questions> questions;
     private float time;
     private  int total_degree;
     public QuizModel(){
     }
 
-    public QuizModel(boolean pushed,List<Questions> questions,float time,int total_degree){
+    public QuizModel(boolean pushed,List<Questions> questions,float time,int total_degree,String quiz_name){
         this.time=time;
+        this.quiz_name=quiz_name;
         this.pushed = pushed;
         this.questions =questions;
         this.total_degree=total_degree;
@@ -53,4 +55,11 @@ public class QuizModel {
         return pushed;
     }
 
+    public String getQuiz_name() {
+        return quiz_name;
+    }
+
+    public void setQuiz_name(String quiz_name) {
+        this.quiz_name = quiz_name;
+    }
 }

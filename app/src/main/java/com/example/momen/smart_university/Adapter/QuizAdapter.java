@@ -17,7 +17,12 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.recyclerVH>
     List<String> Quizname;
     Context context;
 
-    public QuizAdapter(List<String> name, Context context) {
+    public interface QuizClickListener {
+        void onListItemClick(int position);
+    }
+    private   QuizClickListener quizClickListener;
+    public QuizAdapter(List<String> name, Context context,QuizClickListener quizClickListener) {
+        this.quizClickListener=quizClickListener;
         this.Quizname = name;
         this.context = context;
     }
@@ -31,6 +36,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.recyclerVH>
     public void onBindViewHolder(@NonNull QuizAdapter.recyclerVH holder,final int position) {
         TextView QuizName=holder.itemView.findViewById(R.id.quizname) ;
         QuizName.setText(Quizname.get(position));
+
     }
 
     @Override
@@ -38,10 +44,17 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.recyclerVH>
         return Quizname.size();
     }
 
-    class recyclerVH extends RecyclerView.ViewHolder {
+    class recyclerVH extends RecyclerView.ViewHolder implements View.OnClickListener{
         public recyclerVH(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            quizClickListener.onListItemClick(getAdapterPosition());
         }
     }
+
 }
 
