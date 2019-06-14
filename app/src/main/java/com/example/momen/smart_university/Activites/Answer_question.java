@@ -94,13 +94,11 @@ public class Answer_question extends AppCompatActivity {
             }
         });
 
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.child(subName).child("QuizModel").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    subject subject = snapshot.getValue(subject.class);
-                    if (subject!=null && subject.getName().equals(subName)) {
-                        QuizModel quizModel = subject.getQuizModel();
+                        QuizModel quizModel = snapshot.getValue(QuizModel.class);
                         if (quizModel.getPushed()) {
                             quizModelList.add(quizModel);
                             QuizModel model = quizModelList.get(getIndex(StudentName.name)%quizModelList.size());
@@ -108,7 +106,6 @@ public class Answer_question extends AppCompatActivity {
                             populateUI();
                         }
                     }
-                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

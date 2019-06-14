@@ -79,7 +79,7 @@ public class Student_Profile extends AppCompatActivity
         absence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(Student_Profile.this,Student_absent.class);
+                Intent intent= new Intent(Student_Profile.this,AbsenceDetailsActivity.class);
                 startActivity(intent);
 
             }
@@ -166,10 +166,10 @@ public class Student_Profile extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.student_tasks) {
-            Intent intent= new Intent(this,Answer_question.class);
-            startActivity(intent);
+            //Intent intent= new Intent(this,Answer_question.class);
+            //startActivity(intent);
         } else if (id == R.id.student_absence) {
-            Intent intent= new Intent(this,Student_absent.class);
+            Intent intent= new Intent(this,AbsenceDetailsActivity.class);
             startActivity(intent);
         }
         else if (id == R.id.nav_share) {
@@ -185,17 +185,5 @@ public class Student_Profile extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
-        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
-    }
-    public boolean isInternetAvailable() {
-        try {
-            InetAddress address = InetAddress.getByName("www.google.com");
-            return !address.equals("");
-        } catch (UnknownHostException e) {
-            // Log error
-        }
-        return false;
-    }
+
 }
