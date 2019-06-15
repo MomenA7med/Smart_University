@@ -22,4 +22,10 @@ public interface TableDio {
     @Query("SELECT * FROM table_entry WHERE sub_name IN (:subjects)")
     LiveData<List<TableEntry>> getTableStudent(List<String> subjects);
 
+    @Query("SELECT * FROM note_entry")
+    LiveData<List<NoteEntry>> getAllNote();
+
+    @Insert
+    void insertNote(NoteEntry noteEntry);
+
 }

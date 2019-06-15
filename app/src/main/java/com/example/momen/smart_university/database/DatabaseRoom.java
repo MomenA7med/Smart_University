@@ -10,7 +10,7 @@ import android.content.Context;
  * Created by Momen on 6/11/2019.
  */
 
-@Database(entities = {TableEntry.class},version = 1,exportSchema = false)
+@Database(entities = {TableEntry.class,NoteEntry.class},version = 2)
 public abstract class DatabaseRoom extends RoomDatabase {
 
     private static final Object LOCK = new Object();
@@ -22,6 +22,7 @@ public abstract class DatabaseRoom extends RoomDatabase {
         if(sInstance == null){
             synchronized (LOCK){
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),DatabaseRoom.class,DatabaseRoom.DATABASE_NAME)
+                        .fallbackToDestructiveMigration()
                         .build();
             }
         }
@@ -29,4 +30,5 @@ public abstract class DatabaseRoom extends RoomDatabase {
     }
 
     public abstract TableDio tableDio();
+
 }

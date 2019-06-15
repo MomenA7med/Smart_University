@@ -8,8 +8,12 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.momen.smart_university.Activites.Login;
 import com.example.momen.smart_university.Activites.Student_Profile;
+import com.example.momen.smart_university.AppExecutor;
 import com.example.momen.smart_university.R;
+import com.example.momen.smart_university.database.DatabaseRoom;
+import com.example.momen.smart_university.database.NoteEntry;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,12 +27,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Map<String,String> data = remoteMessage.getData();
+        final Map<String,String> data = remoteMessage.getData();
         sendNotification(data);
+        AppExecutor.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                DatabaseRoom.getsInstance(getApplicationContext()).tableDio()
+                        .insertNote(new NoteEntry(data.get("title"),data.get("message")));
+            }
+        });
     }
 
     private void sendNotification(Map<String, String> data) {
-        Intent intent = new Intent(this, Student_Profile.class);
+        Intent intent = new Intent(this, Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // Create the pending intent to launch the activity
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

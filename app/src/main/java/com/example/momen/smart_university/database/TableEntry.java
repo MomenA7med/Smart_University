@@ -21,7 +21,7 @@ public class TableEntry {
     private String year;
     private String day;
 
-    public TableEntry(){};
+    public TableEntry(){}
 
     public TableEntry(String doc_name, String sub_name, int room_num, float from, float to, int section,String year,String day){
         this.doc_name = doc_name;

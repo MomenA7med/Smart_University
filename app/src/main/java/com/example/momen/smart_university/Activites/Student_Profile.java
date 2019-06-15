@@ -179,6 +179,9 @@ public class Student_Profile extends AppCompatActivity
         }else if (id == R.id.addSubject) {
             Intent intent= new Intent(this,AddSubjectActivity.class);
             startActivity(intent);
+        }else if (id == R.id.noteItem){
+            Intent intent = new Intent(this,NoteStudentActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

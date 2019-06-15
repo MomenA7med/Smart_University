@@ -62,7 +62,9 @@
         <activity android:name=".Activites.AddDoctor" />
         <activity android:name=".Activites.AddSubjectActivity" />
         <activity android:name=".Activites.QuizOrAttendeActivity" />
-        <activity android:name=".Activites.AbsenceDetailsActivity"></activity>
+        <activity android:name=".Activites.AbsenceDetailsActivity" />
+        <activity android:name=".Activites.NoteStudentActivity" />
+        <activity android:name=".Activites.NoteDetails"></activity>
     </application>
 
 </manifest>

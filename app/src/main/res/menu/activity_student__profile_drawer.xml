@@ -17,6 +17,9 @@
         <item
             android:id="@+id/addSubject"
             android:title="add Your Subjects"/>
+        <item
+            android:id="@+id/noteItem"
+            android:title="Notes"/>
 
     </group>
 
