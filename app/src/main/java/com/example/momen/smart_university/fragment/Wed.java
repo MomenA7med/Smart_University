@@ -152,6 +152,7 @@ public class Wed extends Fragment implements table_adapter.TableClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        reference.removeEventListener(listener);
+        if (reference != null && listener != null)
+            reference.removeEventListener(listener);
     }
 }
