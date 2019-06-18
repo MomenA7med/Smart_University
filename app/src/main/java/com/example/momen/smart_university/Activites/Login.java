@@ -45,6 +45,7 @@ public class Login extends AppCompatActivity {
     public void click(View view) {
 
         year = spinner.getSelectedItem().toString();
+        Toast.makeText(this, year, Toast.LENGTH_SHORT).show();
 
         if (!year.equals("Select year")) {
             databaseReference = firebaseDatabase.getReference().child("Students").child(year);

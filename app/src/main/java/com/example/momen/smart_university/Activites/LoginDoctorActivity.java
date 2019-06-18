@@ -66,7 +66,6 @@ public class LoginDoctorActivity extends AppCompatActivity {
             }
         });
         if (doctors.size() != 0) {
-            Toast.makeText(this, String.valueOf(doctors.get(1).getId()), Toast.LENGTH_SHORT).show();
             for (int i = 0; i < doctors.size(); i++) {
                 if (doctors.get(i).getId() == Integer.parseInt(id_doc_et.getText().toString())) {
                     DoctorName.doctorName = doctors.get(i).getName();

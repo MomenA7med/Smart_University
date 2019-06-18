@@ -27,6 +27,7 @@ import com.example.momen.smart_university.firebase.Doctor.DoctorName;
 import com.example.momen.smart_university.firebase.Student.Subjects;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -53,6 +54,15 @@ public class Tues extends Fragment implements table_adapter.TableClickListener {
     List <TableEntry> tuesday;
     DatabaseRoom db;
     private String type;
+    Fragment frg;
+    ValueEventListener listener;
+    DatabaseReference reference;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        frg = this;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,40 +87,39 @@ public class Tues extends Fragment implements table_adapter.TableClickListener {
 
 
         if (type.equals("stu")){
-            FirebaseDatabase.getInstance().getReference().child("Students").child(StudentName.year).child(StudentName.name).child("subjects")
-                    .addValueEventListener(new ValueEventListener() {
+            reference = FirebaseDatabase.getInstance().getReference().child("Students").child(StudentName.year).child(StudentName.name).child("subjects");
+            listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot tableSnapshot : dataSnapshot.getChildren()){
+                        Subjects subs = tableSnapshot.getValue(Subjects.class);
+                        if (subs != null){
+                            list.add(subs.getLecture().getName());
+                        }
+                    }
+
+                    GetTableStudentFactory studentFactory = new GetTableStudentFactory(db,list);
+                    GetTableModelStu modelStu = ViewModelProviders.of(frg,studentFactory).get(GetTableModelStu.class);
+                    modelStu.getTableStudent().observe(frg, new Observer<List<TableEntry>>() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot tableSnapshot : dataSnapshot.getChildren()){
-                                Subjects subs = tableSnapshot.getValue(Subjects.class);
-                                if (subs != null){
-                                    list.add(subs.getLecture().getName());
+                        public void onChanged(@Nullable List<TableEntry> tableEntries) {
+                            for (int i=0;i<tableEntries.size();i++){
+                                if (tableEntries.get(i).getDay().equals("Tues")){
+                                    tuesday.add(tableEntries.get(i));
                                 }
                             }
-
-                            GetTableStudentFactory studentFactory = new GetTableStudentFactory(db,list);
-                            GetTableModelStu modelStu = ViewModelProviders.of(getActivity(),studentFactory).get(GetTableModelStu.class);
-                            //Toast.makeText(getContext(), "List = "+String.valueOf(list.size()), Toast.LENGTH_SHORT).show();
-                            modelStu.getTableStudent().observe(getActivity(), new Observer<List<TableEntry>>() {
-                                @Override
-                                public void onChanged(@Nullable List<TableEntry> tableEntries) {
-                                    for (int i=0;i<tableEntries.size();i++){
-                                        if (tableEntries.get(i).getDay().equals("Tues")){
-                                            tuesday.add(tableEntries.get(i));
-                                        }
-                                    }
-                                    table_adapter.notifyDataSetChanged();
-                                }
-                            });
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
+                            table_adapter.notifyDataSetChanged();
                         }
                     });
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            reference.addValueEventListener(listener);
         }else if (type.equals("doc")){
             GetTableDocFactory docFactory = new GetTableDocFactory(db, DoctorName.doctorName);
             GetTableModel tableModel = ViewModelProviders.of(getActivity(),docFactory).get(GetTableModel.class);
@@ -141,5 +150,10 @@ public class Tues extends Fragment implements table_adapter.TableClickListener {
         intent.putExtra("subName",tuesday.get(position).getSub_name());
         intent.putExtra("type",type);
         startActivity(intent);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        reference.removeEventListener(listener);
     }
 }

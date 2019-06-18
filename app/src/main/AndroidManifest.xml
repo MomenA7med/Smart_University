@@ -64,7 +64,9 @@
         <activity android:name=".Activites.QuizOrAttendeActivity" />
         <activity android:name=".Activites.AbsenceDetailsActivity" />
         <activity android:name=".Activites.NoteStudentActivity" />
-        <activity android:name=".Activites.NoteDetails"></activity>
+        <activity android:name=".Activites.NoteDetails" />
+        <activity android:name=".Activites.DegreesListActivity" />
+        <activity android:name=".Activites.StudentDegreesActivity"></activity>
     </application>
 
 </manifest>

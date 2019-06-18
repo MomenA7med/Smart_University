@@ -103,7 +103,7 @@ public class Tables extends Fragment {
                         null,null));
 
                 referenceSubject.child(year.getSelectedItem().toString()).child(subject.getText().toString()).setValue(new Subjects(
-                        new Lecture(subject.getText().toString(),null,null,0),
+                        new Lecture(subject.getText().toString(),null,null,5),
                         new Degree(0,0),null));
 
             }

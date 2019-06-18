@@ -39,14 +39,7 @@ public class DocorActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -136,9 +129,9 @@ public class DocorActivity extends AppCompatActivity
             intent.putExtra("type","doc");
             startActivity(intent);
             // Handle the camera action
-        } else if (id == R.id.task) {
-            //Intent intent = new Intent(this,Quiz.class);
-            //startActivity(intent);
+        }else if (id == R.id.task) {
+            Intent intent = new Intent(this,DegreesListActivity.class);
+            startActivity(intent);
         } else if (id == R.id.note) {
 
             Intent intent = new Intent(this,Note.class);
