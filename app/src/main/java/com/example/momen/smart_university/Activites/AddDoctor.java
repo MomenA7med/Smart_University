@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.momen.smart_university.Adapter.StudentListAdapter;
@@ -23,16 +24,24 @@ public class AddDoctor extends AppCompatActivity {
     EditText doctor_name,doctor_id;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    String name,id;
+    String name,id,nameIntent;
+    int idIntent;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_doctor);
-
+        textView = findViewById(R.id.textView);
         doctor_id = findViewById(R.id.doctor_id);
         doctor_name = findViewById(R.id.doctor_name);
-
+        nameIntent = getIntent().getStringExtra("name");
+        idIntent = getIntent().getIntExtra("id",0);
+        if (!nameIntent.equals(null)){
+            textView.setText("Edit Doctor");
+            doctor_name.setText(nameIntent);
+            doctor_id.setText(String.valueOf(idIntent));
+        }
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Doctors");
 

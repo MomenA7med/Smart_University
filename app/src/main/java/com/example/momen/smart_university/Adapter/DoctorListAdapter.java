@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.momen.smart_university.R;
 import com.example.momen.smart_university.firebase.Doctor.Doctor;
-import com.example.momen.smart_university.firebase.Student.Students;
 
 import java.util.List;
 
@@ -20,17 +19,17 @@ import java.util.List;
 
 public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.recyclerVH>
 {
-    public interface StudentClickListener {
+    public interface doctorClickListener {
         void onListItemClick(int position);
     }
-    private final StudentListAdapter.StudentClickListener studentClickListener;
+    private final DoctorListAdapter.doctorClickListener doctorClickListener;
 
-    List<Doctor> student_name;
+    List<Doctor> doctorsName;
     Context context;
-    public DoctorListAdapter(List<Doctor> name, Context context,StudentListAdapter.StudentClickListener studentClickListener) {
-        this.student_name = name;
+    public DoctorListAdapter(List<Doctor> name, Context context,DoctorListAdapter.doctorClickListener doctorClickListener) {
+        this.doctorsName = name;
         this.context = context;
-        this.studentClickListener = studentClickListener;
+        this.doctorClickListener = doctorClickListener;
     }
     @NonNull
     @Override
@@ -41,12 +40,12 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.re
     @Override
     public void onBindViewHolder(@NonNull DoctorListAdapter.recyclerVH holder,final int position) {
         TextView studentName=holder.itemView.findViewById(R.id.student_name) ;
-        studentName.setText( student_name.get(position).getName());
+        studentName.setText( doctorsName.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return student_name.size();
+        return doctorsName.size();
     }
 
     class recyclerVH extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -57,7 +56,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.re
 
         @Override
         public void onClick(View v) {
-            studentClickListener.onListItemClick(getAdapterPosition());
+            doctorClickListener.onListItemClick(getAdapterPosition());
         }
     }
 }

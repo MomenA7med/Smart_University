@@ -59,6 +59,7 @@ public class AddSubjectActivity extends AppCompatActivity{
         for (Subjects subs : subjectsAdded){
             databaseReference.child("Students").child(StudentName.year).child(StudentName.name)
                     .child("subjects").child(subs.getLecture().getName()).setValue(subs);
+            Toast.makeText(this, subs.getLecture().getName(), Toast.LENGTH_SHORT).show();
         }
         Toast.makeText(this, "done", Toast.LENGTH_SHORT).show();
     }

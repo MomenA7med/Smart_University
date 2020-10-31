@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.momen.smart_university.AppExecutor;
@@ -42,23 +43,31 @@ public class Student_Profile extends AppCompatActivity
     DatabaseRoom db;
     List<String> list;
     Gson gson = new Gson();
+    String name = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student__profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        name = StudentName.name;
         setSupportActionBar(toolbar);
         setTitle("My Profile");
         db = DatabaseRoom.getsInstance(this);
 
+
         list = new ArrayList<>();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView sn = headerView.findViewById(R.id.sn);
+        name = StudentName.name;
+        sn.setText(name);
         navigationView.setNavigationItemSelectedListener(this);
 
         FirebaseMessaging.getInstance().subscribeToTopic(StudentName.year);

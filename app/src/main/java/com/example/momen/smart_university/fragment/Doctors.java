@@ -9,8 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.momen.smart_university.Activites.AddDoctor;
+import com.example.momen.smart_university.Activites.Add_Student;
+import com.example.momen.smart_university.Activites.Admin_Student;
 import com.example.momen.smart_university.Adapter.DoctorListAdapter;
 import com.example.momen.smart_university.Adapter.StudentListAdapter;
 import com.example.momen.smart_university.R;
@@ -30,7 +33,7 @@ import java.util.List;
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class Doctors extends Fragment implements StudentListAdapter.StudentClickListener {
+public class Doctors extends Fragment implements DoctorListAdapter.doctorClickListener {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     RecyclerView recyclerViewDoctor;
@@ -65,7 +68,6 @@ public class Doctors extends Fragment implements StudentListAdapter.StudentClick
                 doctors.add(doctor);
                 DoctorListAdapter doctorListAdapter = new DoctorListAdapter(doctors, getContext(),Doctors.this);
                 recyclerViewDoctor.setAdapter(doctorListAdapter);
-
             }
 
             @Override
@@ -95,6 +97,10 @@ public class Doctors extends Fragment implements StudentListAdapter.StudentClick
 
     @Override
     public void onListItemClick(int position) {
-
+        Intent intent = new Intent(getContext(), AddDoctor.class);
+        intent.putExtra("id",doctors.get(position).getId());
+        intent.putExtra("name",doctors.get(position).getName());
+        Toast.makeText(getContext(), "name :"+doctors.get(position).getName()+"id :"+String.valueOf(doctors.get(position).getId()), Toast.LENGTH_SHORT).show();
+        startActivity(intent);
     }
 }
